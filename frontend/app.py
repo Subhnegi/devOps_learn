@@ -6,6 +6,10 @@ app = Flask(__name__)
 def index():
     return render_template('index.html')
 
+@app.route('/todo')
+def todo():
+    return render_template('todo.html')
+
 @app.route('/signup', methods=['POST'])
 def signup():
     email = request.form['email']

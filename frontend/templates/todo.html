@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My To-Do List</title>
+    <style>
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            padding: 48px 20px;
+            font-family: Arial, sans-serif;
+            color: #1f2937;
+            background: linear-gradient(135deg, #eff6ff, #f5f3ff);
+        }
+
+        .page {
+            width: 100%;
+            max-width: 720px;
+            margin: 0 auto;
+        }
+
+        header { margin-bottom: 24px; }
+
+        h1 {
+            margin: 0 0 8px;
+            font-size: clamp(2rem, 5vw, 2.75rem);
+        }
+
+        header p { margin: 0; color: #64748b; }
+
+        .card {
+            padding: 28px;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            background: #ffffff;
+            box-shadow: 0 12px 30px rgba(30, 41, 59, 0.08);
+        }
+
+        .form-group { margin-bottom: 20px; }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            font-weight: 700;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font: inherit;
+            color: inherit;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        textarea { min-height: 120px; resize: vertical; }
+
+        input:focus, textarea:focus {
+            border-color: #4f46e5;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.12);
+        }
+
+        button {
+            width: 100%;
+            padding: 13px 20px;
+            border: 0;
+            border-radius: 8px;
+            color: #ffffff;
+            background: #4f46e5;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        button:hover { background: #4338ca; }
+
+        .tasks {
+            margin: 28px 0 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .task {
+            display: flex;
+            gap: 12px;
+            padding: 18px;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        .task + .task { margin-top: 12px; }
+        .task h2 { margin: 0 0 5px; font-size: 1rem; }
+        .task p { margin: 0; color: #64748b; line-height: 1.5; white-space: pre-wrap; }
+        .task input { width: 18px; height: 18px; margin-top: 2px; }
+        .task.done div { text-decoration: line-through; opacity: 0.55; }
+
+        @media (max-width: 520px) {
+            body { padding: 28px 16px; }
+            .card { padding: 22px; }
+        }
+    </style>
+</head>
+<body>
+    <main class="page">
+        <header>
+            <h1>My To-Do List</h1>
+            <p>Add an item and keep track of what needs to get done.</p>
+        </header>
+
+        <section class="card" aria-labelledby="form-title">
+            <form id="todo-form">
+                <div class="form-group">
+                    <label for="item-name">Item Name</label>
+                    <input id="item-name" name="item_name" type="text"
+                           placeholder="What do you need to do?" required maxlength="100">
+                </div>
+
+                <div class="form-group">
+                    <label for="item-description">Item Description</label>
+                    <textarea id="item-description" name="item_description"
+                              placeholder="Add a few details..." required maxlength="500"></textarea>
+                </div>
+
+                <button type="submit">Add To-Do</button>
+            </form>
+        </section>
+
+        <ul class="tasks" id="task-list" aria-live="polite"></ul>
+    </main>
+
+    <script>
+        const form = document.getElementById('todo-form');
+        const taskList = document.getElementById('task-list');
+
+        form.addEventListener('submit', (event) => {
+            event.preventDefault();
+
+            const name = form.elements.item_name.value.trim();
+            const description = form.elements.item_description.value.trim();
+            if (!name || !description) return;
+
+            const item = document.createElement('li');
+            item.className = 'task';
+
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.setAttribute('aria-label', `Mark ${name} as complete`);
+            checkbox.addEventListener('change', () => item.classList.toggle('done', checkbox.checked));
+
+            const content = document.createElement('div');
+            const title = document.createElement('h2');
+            const details = document.createElement('p');
+            title.textContent = name;
+            details.textContent = description;
+            content.append(title, details);
+            item.append(checkbox, content);
+            taskList.prepend(item);
+
+            form.reset();
+            form.elements.item_name.focus();
+        });
+    </script>
+</body>
+</html>
