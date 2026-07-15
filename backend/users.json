@@ -6,7 +6,7 @@
     "username": "johndoe89",
     "email": "john.doe@example.com",
     "role": "admin",
-    "isActive": true
+    "isActive": false
   },
   {
     "id": 2,
@@ -15,7 +15,7 @@
     "username": "janesmith22",
     "email": "jane.smith@example.com",
     "role": "manager",
-    "isActive": true
+    "isActive": false
   },
   {
     "id": 3,
