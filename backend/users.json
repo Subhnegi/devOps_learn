@@ -24,7 +24,7 @@
     "username": "alexj_dev",
     "email": "alex.jones@example.com",
     "role": "user",
-    "isActive": false
+    "isActive": true
   },
   {
     "id": 4,
